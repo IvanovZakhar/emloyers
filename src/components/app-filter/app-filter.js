@@ -1,6 +1,6 @@
 import './app-filter.css';
 
-const AppFilter = () => {
+const AppFilter = (data) => {
     return(
         <div className="btn group">
             <button 
