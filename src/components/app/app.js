@@ -15,7 +15,8 @@ class App extends Component{
                 {name:'Jonh C.', salary: '800',  increase: true, like: true, id: 1},
                 {name:'Alex M.', salary: '3000', increase: false, like: false, id: 2},
                 {name:'Carl W.', salary: '15000', increase: false, like: false, id: 3},
-            ]
+            ],
+            term: ''
         }
         this.maxId = 4;
     }
@@ -57,18 +58,34 @@ class App extends Component{
         }))
     }
 
+    searchEmp = (items, term) =>{
+        if(term.length === 0){
+            return items;
+        }
+
+        return items.filter(item => {
+            return item.name.indexOf(term) > -1
+        })
+    }
+
+    onUpdateSearch = (term) => {
+        this.setState({term});
+    }
 
     render(){
+        const {data, term} = this.state;
+        const visibleData = this.searchEmp(data, term)
+
         return(
             <div className="app">
                 <AppInfo data={this.state.data}/>
     
                 <div className="search-panel">
-                    <SearchPanel/>
+                    <SearchPanel onUpdateSearch={this.onUpdateSearch}/>
                     <AppFilter/>
                 </div>
                 <EmployersList 
-                    data={this.state.data}
+                    data={visibleData }
                     onDelete={this.deleteItem}
                     onToggleProp={this.onToggleProp}/>
                 <EmployersAddForm onAdd={this.addItem}/>
