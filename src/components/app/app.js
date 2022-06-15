@@ -17,7 +17,8 @@ class App extends Component{
                 {name:'Carl W.', salary: '15000', increase: false, like: false, id: 3},
             ],
             term: '',
-            filter: 'all'
+            filter: 'all', 
+            valueSalary: ''
             
         }
         this.maxId = 4;
@@ -52,7 +53,7 @@ class App extends Component{
     onToggleProp = (id, prop) => {
         this.setState(({data}) => ({
             data: data.map(item => {
-                if (item.id ===id){
+                if (item.id === id){
                     return{...item, [prop]: !item[prop]}
                 }
                 return item;
@@ -89,6 +90,17 @@ class App extends Component{
         this.setState({filter});
     }
 
+    ValueChange = (id) => {
+        console.log(id)
+        console.log(this.state.valueSalary)
+    }
+
+    onUpdateValueSalary = (valueSalary) => {
+        this.setState({valueSalary})
+        console.log(this.state.valueSalary)
+        
+    }
+
     render(){
         const {data, term, filter} = this.state;
         const visibleData = this.filterPost(this.searchEmp(data, term), filter);
@@ -102,9 +114,11 @@ class App extends Component{
                     <AppFilter filter={filter} onFilterSelect={this.onFilterSelect}/>
                 </div>
                 <EmployersList 
-                    data={visibleData }
+                    data={visibleData}
                     onDelete={this.deleteItem}
-                    onToggleProp={this.onToggleProp}/>
+                    onToggleProp={this.onToggleProp}
+                    onValueChange={this.ValueChange}
+                    onUpdateValueSalary={this.state.valueSalary}/>
                 <EmployersAddForm onAdd={this.addItem}/>
             </div>
         )
